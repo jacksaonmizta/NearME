@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+    <item android:id="@+id/Recommend"
+        android:title="Recommend"
+        android:icon="@drawable/ic_recommend"/>
+
+    <item android:id="@+id/Search"
+        android:title="Search"
+        android:icon="@drawable/ic_location"/>
+
+    <item android:id="@+id/History"
+        android:title="History"
+        android:icon="@drawable/ic_history"/>
+
+    <item android:id="@+id/Profile"
+        android:title="Profile"
+        android:icon="@drawable/ic_account"/>
+
+
+</menu>

@@ -6,56 +6,30 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
-
-
-    FirebaseAuth mFirebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+public class history extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-       /* btnLogout = findViewById(R.id.signOutBtn);
-
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(MainActivity.this, Login_Form.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                        | Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        );
-                startActivity(intent);
-                finish();
-
-            }
-        });*/
+        setContentView(R.layout.activity_history);
 
         // Initialize and Assign Value
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         //Set Recommend selected
-        bottomNavigationView.setSelectedItemId(R.id.Recommend);
+        bottomNavigationView.setSelectedItemId(R.id.History);
 
         //Perform ItemSelectedListener
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
+
                     case R.id.Search:
                         startActivity(new Intent(getApplicationContext(), search.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.History:
-                        startActivity(new Intent(getApplicationContext(), history.class));
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.Profile:
@@ -63,12 +37,14 @@ public class MainActivity extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.Recommend:
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.History:
                         return true;
                 }
                 return false;
             }
         });
     }
-
-
 }

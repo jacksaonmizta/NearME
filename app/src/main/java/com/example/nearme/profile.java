@@ -12,24 +12,53 @@ import android.widget.Button;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends AppCompatActivity {
-
-
+public class profile extends AppCompatActivity {
+    Button btnLogout;
     FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_profile);
 
-       /* btnLogout = findViewById(R.id.signOutBtn);
+        // Initialize and Assign Value
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        //Set Recommend selected
+        bottomNavigationView.setSelectedItemId(R.id.Profile);
+
+        //Perform ItemSelectedListener
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                switch (menuItem.getItemId()){
+                    case R.id.History:
+                        startActivity(new Intent(getApplicationContext(), history.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.Search:
+                        startActivity(new Intent(getApplicationContext(), search.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.Recommend:
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.Profile:
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        btnLogout = findViewById(R.id.signOutBtn);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(MainActivity.this, Login_Form.class);
+                Intent intent = new Intent(profile.this, Login_Form.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                         | Intent.FLAG_ACTIVITY_CLEAR_TOP
                         );
@@ -37,38 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
 
             }
-        });*/
-
-        // Initialize and Assign Value
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-        //Set Recommend selected
-        bottomNavigationView.setSelectedItemId(R.id.Recommend);
-
-        //Perform ItemSelectedListener
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()){
-                    case R.id.Search:
-                        startActivity(new Intent(getApplicationContext(), search.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.History:
-                        startActivity(new Intent(getApplicationContext(), history.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.Profile:
-                        startActivity(new Intent(getApplicationContext(), profile.class));
-                        overridePendingTransition(0, 0);
-                        return true;
-                    case R.id.Recommend:
-                        return true;
-                }
-                return false;
-            }
         });
     }
-
-
 }
