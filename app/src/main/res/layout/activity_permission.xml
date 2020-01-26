@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".search"
+    tools:context=".PermissionActivity"
     android:padding="32dp">
 
     <LinearLayout
@@ -36,14 +36,13 @@
             android:gravity="center_horizontal"/>
     </LinearLayout>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
+    <Button
+        android:id="@+id/btn_grant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bottom_navigation"
-        app:itemBackground="@color/colorPrimary"
-        app:itemTextColor="@drawable/selector"
-        app:itemIconTint="@drawable/selector"
-        app:menu="@menu/menu"
-        android:layout_alignParentBottom="true"/>
-
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        android:textColor="#FFFFFF"
+        android:text="Grant Permission"
+        android:textAllCaps="false"/>
 </RelativeLayout>
