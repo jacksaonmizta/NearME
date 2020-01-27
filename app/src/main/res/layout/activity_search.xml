@@ -5,36 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".search"
-    android:padding="32dp">
+    >
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:text="Recommend"
+        android:textSize="50sp"
+        android:textStyle="bold"
+        android:layout_centerInParent="true"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_launcher">
-        </ImageView>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Permission Request"
-            android:textSize="24sp"
-            android:layout_marginTop="12dp"
-            android:fontFamily="sans-serif-black"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Need permission to access device location. Please allow the permission"
-            android:layout_marginTop="36dp"
-            android:gravity="center_horizontal"/>
-    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"

@@ -41,7 +41,7 @@ public class Login_Form extends AppCompatActivity {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if( mFirebaseUser != null){
                     Toast.makeText(Login_Form.this,"You are logged in",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Login_Form.this, PermissionActivity.class);
+                    Intent intent = new Intent(Login_Form.this, MainActivity.class);
                     startActivity(intent);
 
                 }
@@ -87,7 +87,7 @@ public class Login_Form extends AppCompatActivity {
 
                             }
                             else{
-                                Intent intToHome = new Intent(Login_Form.this, MainActivity.class);
+                                Intent intToHome = new Intent(Login_Form.this, PermissionActivity.class);
                                 startActivity(intToHome);
                             }
                         }
