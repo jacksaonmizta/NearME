@@ -31,11 +31,9 @@ public class PermissionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_permission);
 
-        //if already permission allowed!
         if(ContextCompat.checkSelfPermission(PermissionActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)== PackageManager.PERMISSION_GRANTED){
-            startActivity(new Intent (PermissionActivity.this, search.class));
             finish();
-
+            return;
         }
 
 
