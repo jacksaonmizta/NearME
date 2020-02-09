@@ -33,7 +33,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.List;
 
-public class search extends AppCompatActivity implements OnMapReadyCallback {
+public class search extends AppCompatActivity {
 
     //Map Object
     private GoogleMap mMap;
@@ -93,59 +93,9 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
         materialSearchBar = findViewById(R.id.searchBar);
         btnFind = findViewById(R.id.find_restaurant);
 
-        SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        mapView = mapFragment.getView();
+
     }
 
     //when map ready and loaded||to move map or enable buttons
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.setMyLocationEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        //Move the location button to bottom
-        if(mapView != null & mapView.findViewById(Integer.parseInt("1")) !=null){
-            View locationButton = ((View) mapView.findViewById(Integer.parseInt("1")).getParent()).findViewById(Integer.parseInt("2"));
-            RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-            layoutParams.setMargins(0,0,40,180);
-        }
-
-        //check if gps is enabled or not and then request user to enable it
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder().addLocationRequest(locationRequest);
-
-        SettingsClient settingsClient = LocationServices.getSettingsClient(search.this);
-        //check whether GPS is on or off
-        Task<LocationSettingsResponse> task = settingsClient.checkLocationSettings(builder.build());
-
-        task.addOnSuccessListener(search.this, new OnSuccessListener<LocationSettingsResponse>() {
-            @Override
-            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-
-            }
-        });
-
-        task.addOnFailureListener(search.this, new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                if (e instanceof ResolvableApiException){
-                    ResolvableApiException resolvable = (ResolvableApiException) e;
-                    try {
-                        resolvable.startResolutionForResult(search.this, 51);
-                    } catch (IntentSender.SendIntentException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }
-        });
-
-    }
 }
