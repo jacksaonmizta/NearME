@@ -62,6 +62,7 @@ public class profile extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                         | Intent.FLAG_ACTIVITY_CLEAR_TOP
                         );
+
                 startActivity(intent);
                 finish();
 
