@@ -51,6 +51,8 @@ public class search extends AppCompatActivity {
     private MaterialSearchBar materialSearchBar;
     private View mapView;
     private Button btnFind;
+   // private RippleBackground rippleBg;
+
 
     private final float Default_ZOOM = 18;
     @Override
@@ -92,6 +94,9 @@ public class search extends AppCompatActivity {
 
         materialSearchBar = findViewById(R.id.searchBar);
         btnFind = findViewById(R.id.find_restaurant);
+        //rippleBg = findViewById(R.id.ripple_bg);
+
+        
 
 
     }
