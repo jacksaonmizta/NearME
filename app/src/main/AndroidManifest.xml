@@ -8,6 +8,8 @@
          location permissions for the 'MyLocation' functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <dist:module dist:instant="true" />
 
@@ -29,7 +31,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAIxsRdP8-9x2YOKTxyGP5HEqbw862J3KQ" />
+                android:value="AIzaSyAIxsRdP8-9x2YOKTxyGP5HEqbw862J3KQ" />
 
         <activity android:name=".PermissionActivity" />
         <activity android:name=".profile" />
