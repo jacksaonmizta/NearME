@@ -3,6 +3,7 @@ package com.example.nearme;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -44,7 +45,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 
 import java.util.List;
 
-public class search extends AppCompatActivity implements OnMapReadyCallback {
+public class search extends FragmentActivity implements OnMapReadyCallback {
 
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
@@ -92,33 +93,37 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
     }
 
     private void fetchLastLocation() {
-
+        if(ActivityCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]
+                    {Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_CODE);
+            return;
+        }
         Task<Location> task = fusedLocationProviderClient.getLastLocation();
         task.addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                if (location != null){
+                if(location != null){
                     currentLocation = location;
-                    Toast.makeText(getApplicationContext(), currentLocation.getLongitude()+
-                            ""+currentLocation.getLatitude(), Toast.LENGTH_SHORT).show();
-                    SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
-                    //SupportMapFragment.getMapAsync(search.this);
+                    Toast.makeText(getApplicationContext(), currentLocation.getLatitude()
+                    +""+currentLocation.getLongitude(),Toast.LENGTH_SHORT).show();
+                    SupportMapFragment supportMapFragment =(SupportMapFragment)
+                            getSupportFragmentManager().findFragmentById(R.id.google_map);
+                    supportMapFragment.getMapAsync(search.this);
                 }
             }
         });
-
-        {
-
-        }
     }
 
+
+
+
     @Override
-    public void onMapReady (GoogleMap googleMap){
+    public void onMapReady(GoogleMap googleMap) {
         LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-        MarkerOptions marketOptions = new MarkerOptions().position(latLng).title("I Am Here");
+        MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("I am here");
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 5));
-        googleMap.addMarker(marketOptions);
+        googleMap.addMarker(markerOptions);
 
     }
 

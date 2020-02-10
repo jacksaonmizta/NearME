@@ -87,7 +87,7 @@ public class Login_Form extends AppCompatActivity {
 
                             }
                             else{
-                                Intent intToHome = new Intent(Login_Form.this, PermissionActivity.class);
+                                Intent intToHome = new Intent(Login_Form.this, search.class);
                                 startActivity(intToHome);
                             }
                         }

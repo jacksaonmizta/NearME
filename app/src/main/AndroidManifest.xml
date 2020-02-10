@@ -33,7 +33,6 @@
             android:name="com.google.android.geo.API_KEY"
                 android:value="AIzaSyAIxsRdP8-9x2YOKTxyGP5HEqbw862J3KQ" />
 
-        <activity android:name=".PermissionActivity" />
         <activity android:name=".profile" />
         <activity android:name=".history" />
         <activity android:name=".Signup_Form" />
