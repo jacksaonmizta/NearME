@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -122,7 +123,7 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
         mapView = mapFragment.getView();
 
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(search.this);
-        Places.initialize(search.this, "AIzaSyAIxsRdP8-9x2YOKTxyGP5HEqbw862J3KQ");
+        Places.initialize(search.this, getString(R.string.google_maps_api));
         placesClient = Places.createClient(this);
         final AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
 
@@ -265,7 +266,6 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         mMap = googleMap;
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
@@ -320,7 +320,6 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
                 return false;
             }
         });
-
     }
 
     @Override
@@ -333,6 +332,7 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
         }
     }
 
+    @SuppressLint("MissingPermission")
     private void getDeviceLocation() {
         mFusedLocationProviderClient.getLastLocation()
                 .addOnCompleteListener(new OnCompleteListener<Location>() {
