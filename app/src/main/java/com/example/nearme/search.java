@@ -10,7 +10,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -252,8 +254,30 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
                     @Override
                     public void run() {
                         rippleBg.stopRippleAnimation();
-                        startActivity(new Intent(search.this, resNear.class));
-                        finish();
+                       // startActivity(new Intent(search.this, resNear.class));
+                        //finish();
+                        Object dataTransfer[] = new Object[2];
+                        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+
+                        String resturant = "nearby";
+
+                        Criteria criteria = new Criteria();
+                        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                        String provider = locationManager.getBestProvider(criteria, true);
+                        @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(provider);
+                        double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
+                        String url = getUrl(latitude, longitude, resturant);
+                        dataTransfer[0] = mMap;
+                        dataTransfer[1] = url;
+
+                        Singleton singleton = Singleton.getInstance();
+
+                        singleton.setContext(this);
+                        singleton.setTitle(resturant);
+                        getNearbyPlacesData.execute(dataTransfer);
+
+
                     }
                 }, 3000);
 
@@ -263,7 +287,20 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
 
 
     }
+    private String getUrl(double latitude, double longitude, String nearbyPlace) {
 
+        StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/search/json?");
+
+        googlePlaceUrl.append("location=" + latitude + "," + longitude);
+        googlePlaceUrl.append("&radius=" + "1000");
+        googlePlaceUrl.append("&type=restaurant");
+        googlePlaceUrl.append("&keyword=" + nearbyPlace);
+
+        googlePlaceUrl.append("&key=" + "AIzaSyDkDvJ_0aEDP7BKKsd9RO8HIuM1MDHl-RI");
+
+
+        return googlePlaceUrl.toString();
+    }
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
