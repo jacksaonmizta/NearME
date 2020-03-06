@@ -1,8 +1,15 @@
 package com.example.nearme;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
+
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -17,9 +24,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -36,6 +40,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -268,7 +273,7 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
 
                         Singleton singleton = Singleton.getInstance();
 
-                   singleton.setContext(getBaseContext());
+                        singleton.setContext(this);
                         singleton.setTitle(resturant);
                         getNearbyPlacesData.execute(dataTransfer);
 
@@ -291,7 +296,7 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
         googlePlaceUrl.append("&type=restaurant");
         googlePlaceUrl.append("&keyword=" + nearbyPlace);
 
-        googlePlaceUrl.append("&key=" + "AIzaSyDWlriOcs2d2_mr2i3aOpJ1q_0d8i9jjE0");
+        googlePlaceUrl.append("&key=" + "AIzaSyDkDvJ_0aEDP7BKKsd9RO8HIuM1MDHl-RI");
 
 
         return googlePlaceUrl.toString();
