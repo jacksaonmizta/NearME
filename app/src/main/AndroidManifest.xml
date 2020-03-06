@@ -29,7 +29,6 @@
             android:value="AIzaSyC6CGgMc_emLboS9Wa1CuzvVh2_OdJIf0Y" />
 
         <activity android:name=".profile" />
-        <activity android:name=".mainlist" />
         <activity android:name=".search" />
         <activity android:name=".history" />
         <activity android:name=".resNear"/>
