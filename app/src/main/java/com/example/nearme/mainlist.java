@@ -3,13 +3,11 @@ package com.example.nearme;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class mainlist extends AppCompatA ctivity {
+public class mainlist extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +20,8 @@ public class mainlist extends AppCompatA ctivity {
 
 
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
-        TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
-        txtTitle.setText(emailFromIntent);
+      //  TextView txtTitle = (TextView) findViewById(R.id.txtTitle);
+     //   txtTitle.setText(emailFromIntent);
         PlaceAdapter placeAdapter = new PlaceAdapter(this,singleton.getLsData());
 
         lsView.setAdapter(placeAdapter);
@@ -37,12 +35,12 @@ public class mainlist extends AppCompatA ctivity {
             }
         });
 
-        ImageView img = (ImageView)findViewById(R.id.imgView);
-        img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+      //  ImageView img = (ImageView)findViewById(R.id.imgView);
+       // img.setOnClickListener(new View.OnClickListener() {
+     //       @Override
+    //        public void onClick(View v) {
+    //            finish();
             }
-        });
-    }
+    //    });
+   // }
 }
