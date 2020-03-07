@@ -10,8 +10,8 @@
 
 
     <ImageView
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
 
         android:padding="30dp"
@@ -88,11 +88,34 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <CheckBox
-        android:id="@+id/checkBox"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enable Fingerprint(Only for first account)" />
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_marginTop="5dp"
+        android:textColorHint="@color/colorPrimaryDark"
+
+
+        >
+
+        <TextView
+            android:id="@+id/restaurant_typeLabel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Restaurant type"
+            android:textSize="20sp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Spinner
+            android:id="@+id/typeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -100,10 +123,50 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:layout_marginTop="5dp"
-        android:textColorHint="@color/colorAccent"
+        android:textColorHint="@color/colorPrimaryDark"
 
 
-        />
+        >
+
+        <TextView
+            android:id="@+id/restaurant_Budget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Restaurant Budget"
+            android:textSize="20sp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioGroup">
+
+        <RadioButton
+            android:id="@+id/budgetL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Low"
+            android:onClick="checkButton"/>
+
+        <RadioButton
+            android:id="@+id/budgetM"
+            android:layout_toRightOf="@+id/budgetL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Medium"
+            android:onClick="checkButton"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/budgetH"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="High"
+            android:onClick="checkButton"/>
+    </RadioGroup>
+
+
 
 
     <Button
@@ -125,6 +188,8 @@
         android:textSize="10sp"
         android:textColor="#0000FF"
         android:layout_marginTop="20dp"/>
+
+
 
 
 </LinearLayout>

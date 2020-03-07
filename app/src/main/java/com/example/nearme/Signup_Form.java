@@ -6,8 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +24,10 @@ public class Signup_Form extends AppCompatActivity {
     public EditText emailId, password;
     Button btnSignUp;
     TextView tvSignIn;
+    Spinner mySpinner;
     FirebaseAuth mFirebaseAuth;
+    RadioButton radioButton;
+    RadioGroup radioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,18 @@ public class Signup_Form extends AppCompatActivity {
         password = findViewById(R.id.tv_password);
         tvSignIn = findViewById(R.id.LoginSignUp_tv);
         btnSignUp = findViewById(R.id.Signup_ButtonID);
+        mySpinner = findViewById(R.id.typeSpinner);
+        radioGroup = findViewById(R.id.radioGroup);
+
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(Signup_Form.this,
+                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.restaurant_Type));
+
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(myAdapter);
+
+
+
+
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,5 +112,13 @@ public class Signup_Form extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void checkButton(View view) {
+        int radioId = radioGroup.getCheckedRadioButtonId();
+
+        radioButton=findViewById(radioId);
+
+        Toast.makeText(this, "Selected Radio Button: "+ radioButton.getText(), Toast.LENGTH_SHORT).show();
     }
 };

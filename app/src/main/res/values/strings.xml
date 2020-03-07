@@ -2,4 +2,12 @@
     <string name="app_name">NearME</string>
     <string name="title_activity_maps">Map</string>
     <string name="google_maps_api">AIzaSyC6CGgMc_emLboS9Wa1CuzvVh2_OdJIf0Y</string>
+
+    <string-array name="restaurant_Type">
+        <item>Indian</item>
+        <item>Malay</item>
+        <item>Chinese</item>
+        <item>Thai</item>
+        <item>Fastfood</item>
+    </string-array>
 </resources>
