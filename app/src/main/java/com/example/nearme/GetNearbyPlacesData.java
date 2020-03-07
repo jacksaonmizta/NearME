@@ -52,7 +52,8 @@ class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
 
         Singleton singleton = Singleton.getInstance();
         Intent intent = new Intent(singleton.getContext() , mainlist.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+       intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         String foods = singleton.getTitle();
         String food = foods;
         intent.putExtra("EMAIL", food.toString().trim());
