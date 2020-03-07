@@ -8,6 +8,33 @@
     android:orientation="vertical">
 
 
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorAccent"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        <ImageView
+            android:id="@+id/imgView"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/back" />
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Foodie"
+            android:textSize="20dp"
+            android:layout_marginStart="50dp"/>
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+
     <ListView
         android:id="@+id/lsView"
         android:layout_width="match_parent"

@@ -11,7 +11,7 @@ class Singleton {
         return ourInstance;
     }
 ArrayList<String> lsData = new ArrayList<>();
-    Context context;
+Context context;
     String title;
 
     public String getMylat() {
@@ -56,7 +56,7 @@ ArrayList<String> lsData = new ArrayList<>();
         return context;
     }
 
-    public void setContext(Context context) {
-        this.context = context;
+    public void setContext(Runnable context) {
+        this.context = (Context) context;
     }
 }
