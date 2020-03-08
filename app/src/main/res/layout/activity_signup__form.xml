@@ -168,7 +168,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Low"
-            android:onClick="checkButton"/>
+            />
 
         <RadioButton
             android:id="@+id/budgetM"
@@ -176,7 +176,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Medium"
-            android:onClick="checkButton"
+
             android:checked="true"/>
 
         <RadioButton
@@ -184,7 +184,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="High"
-            android:onClick="checkButton"/>
+            />
     </RadioGroup>
 
 

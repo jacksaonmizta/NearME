@@ -61,6 +61,10 @@ public class Signup_Form extends AppCompatActivity {
 
         radioGroup = findViewById(R.id.radioGroup);
 
+        int radioId = radioGroup.getCheckedRadioButtonId();
+
+        radioButton=findViewById(radioId);
+
         fstore = FirebaseFirestore.getInstance();
 
 
@@ -71,8 +75,8 @@ public class Signup_Form extends AppCompatActivity {
             public void onClick(View v) {
                 final String email = emailId.getText().toString();
                 String pwd = password.getText().toString();
-                //final String RT = restaurantType.getSelectedItem().toString();
-               // final String BT = radioButton.getText().toString();
+                final String RT = restaurantType.getSelectedItem().toString();
+                final String BT = radioButton.getText().toString();
 
                 if(email.isEmpty()){
                     emailId.setError("Please enter email address");
@@ -103,8 +107,8 @@ public class Signup_Form extends AppCompatActivity {
                                 DocumentReference documentReference = fstore.collection("users").document(userID);
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("Email", email);
-                                //user.put("Restaurant Type", RT);
-                               // user.put("Budget level", BT);
+                                user.put("Restaurant Type", RT);
+                                user.put("Budget level", BT);
                                 documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -153,13 +157,7 @@ public class Signup_Form extends AppCompatActivity {
 
     }
 
-    public void checkButton(View view) {
-        int radioId = radioGroup.getCheckedRadioButtonId();
 
-        radioButton=findViewById(radioId);
-
-        Toast.makeText(this, "Selected Radio Button: "+ radioButton.getText(), Toast.LENGTH_SHORT).show();
-    }
 
 
 }

@@ -4,7 +4,7 @@
     <string name="google_maps_api">AIzaSyC6CGgMc_emLboS9Wa1CuzvVh2_OdJIf0Y</string>
 
     <string-array name="restaurant_Type">
-        <item>Indian</item>
+        <item>INDIAN</item>
         <item>Malay</item>
         <item>Chinese</item>
         <item>Thai</item>
