@@ -10,4 +10,10 @@
         <item>Thai</item>
         <item>Fastfood</item>
     </string-array>
+
+    <string-array name="budger_type">
+        <item>LOW</item>
+        <item>MEDIUM</item>
+        <item>HIGH</item>
+    </string-array>
 </resources>

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,16 +17,29 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Signup_Form extends AppCompatActivity {
+    public static final String TAG = "TAG";
     public EditText emailId, password;
     Button btnSignUp;
     TextView tvSignIn;
     FirebaseAuth mFirebaseAuth;
-    
+    FirebaseFirestore fstore;
+
+    Spinner restaurantType;
+    RadioGroup radioGroup;
+    RadioButton radioButton;
+    String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +52,16 @@ public class Signup_Form extends AppCompatActivity {
         tvSignIn = findViewById(R.id.LoginSignUp_tv);
         btnSignUp = findViewById(R.id.Signup_ButtonID);
 
+        restaurantType = findViewById(R.id.RtypeSpinner);
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(Signup_Form.this,
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.restaurant_Type));
 
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        restaurantType.setAdapter(myAdapter);
+
+        radioGroup = findViewById(R.id.radioGroup);
+
+        fstore = FirebaseFirestore.getInstance();
 
 
 
@@ -46,8 +69,11 @@ public class Signup_Form extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailId.getText().toString();
+                final String email = emailId.getText().toString();
                 String pwd = password.getText().toString();
+                //final String RT = restaurantType.getSelectedItem().toString();
+               // final String BT = radioButton.getText().toString();
+
                 if(email.isEmpty()){
                     emailId.setError("Please enter email address");
                     emailId.requestFocus();
@@ -71,12 +97,34 @@ public class Signup_Form extends AppCompatActivity {
                     mFirebaseAuth.createUserWithEmailAndPassword(email, pwd).addOnCompleteListener(Signup_Form.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(!task.isSuccessful()){
-                                Toast.makeText(Signup_Form.this,"SignUp unsuccessful, Please try again later", Toast.LENGTH_SHORT).show();
+                            if(task.isSuccessful()){
+                                Toast.makeText(Signup_Form.this,"User Created.", Toast.LENGTH_SHORT).show();
+                                userID = mFirebaseAuth.getCurrentUser().getUid();
+                                DocumentReference documentReference = fstore.collection("users").document(userID);
+                                Map<String, Object> user = new HashMap<>();
+                                user.put("Email", email);
+                                //user.put("Restaurant Type", RT);
+                               // user.put("Budget level", BT);
+                                documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "onSuccess: user Profile is created for "+ userID);
+                                    }
+
+                                })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error adding document", e);
+                                            }
+
+
+                                });
+
                             }
 
                             else{
-                                startActivity(new Intent(Signup_Form.this, Login_Form.class));
+                                Toast.makeText(Signup_Form.this,"SignUp unsuccessful, Please try again later", Toast.LENGTH_SHORT).show();
                             }
 
                         }
@@ -105,5 +153,13 @@ public class Signup_Form extends AppCompatActivity {
 
     }
 
+    public void checkButton(View view) {
+        int radioId = radioGroup.getCheckedRadioButtonId();
 
-};
+        radioButton=findViewById(radioId);
+
+        Toast.makeText(this, "Selected Radio Button: "+ radioButton.getText(), Toast.LENGTH_SHORT).show();
+    }
+
+
+}
