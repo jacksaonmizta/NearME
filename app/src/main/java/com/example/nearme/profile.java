@@ -5,18 +5,25 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class profile extends AppCompatActivity {
     Button btnLogout;
-    Button test;
-    FirebaseAuth mFirebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+     private FirebaseAuth mFirebaseAuth;
+     private FirebaseAuth.AuthStateListener mAuthStateListener;
+     private String UserID;
+     private FirebaseFirestore mFirestore;
+     private TextView email, resType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +74,25 @@ public class profile extends AppCompatActivity {
                 startActivity(intent);
                 finish();
 
+            }
+        });
+
+        // retreive data
+
+        email = findViewById(R.id.emailTV);
+        resType = findViewById(R.id.restaurantTV);
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        UserID =mFirebaseAuth.getCurrentUser().getUid();
+        mFirestore = FirebaseFirestore.getInstance();
+
+        mFirestore.collection("users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                String emailU= documentSnapshot.getString("Email");
+                String restaurantTYPE = documentSnapshot.getString("Restaurant Type");
+
+                email.setText(emailU);
+                resType.setText(restaurantTYPE);
             }
         });
     }
