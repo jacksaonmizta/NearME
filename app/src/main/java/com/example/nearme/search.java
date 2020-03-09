@@ -1,11 +1,14 @@
 package com.example.nearme;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -123,6 +126,8 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
         Places.initialize(search.this, getString(R.string.google_maps_api));
         placesClient = Places.createClient(this);
         final AutocompleteSessionToken token = AutocompleteSessionToken.newInstance();
+
+        //checkConnection();
 
         materialSearchBar.setOnSearchActionListener(new MaterialSearchBar.OnSearchActionListener() {
             @Override
@@ -400,4 +405,22 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
                     }
                 });
     }
+
+   /* public void checkConnection() {
+        ConnectivityManager manager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
+
+        if (null != activeNetwork) {
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                Toast.makeText(search.this, "WIFI enabled", Toast.LENGTH_SHORT).show();
+            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                Toast.makeText(search.this, "Data Network enabled", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(search.this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }*/
+
+
 }
