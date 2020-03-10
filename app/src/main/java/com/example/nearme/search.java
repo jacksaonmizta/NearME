@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -51,6 +52,9 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 import com.skyfishjy.library.RippleBackground;
@@ -73,8 +77,13 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
     private View mapView;
     private Button btnFind;
     private RippleBackground rippleBg;
-
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private String UserID;
+    private FirebaseFirestore mFirestore;
+    private TextView email, resType, BudgetL;
     private final float DEFAULT_ZOOM = 15;
+    public String res;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -251,26 +260,53 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
                         rippleBg.stopRippleAnimation();
                        // startActivity(new Intent(search.this, resNear.class));
                         //finish();
-                        Object dataTransfer[] = new Object[2];
-                        GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
 
-                        String resturant = "nearby";
 
-                        Criteria criteria = new Criteria();
-                        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-                        String provider = locationManager.getBestProvider(criteria, true);
-                        @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(provider);
-                        double latitude = location.getLatitude();
-                        double longitude = location.getLongitude();
-                        String url = getUrl(latitude, longitude, resturant);
-                        dataTransfer[0] = mMap;
-                        dataTransfer[1] = url;
 
-                        Singleton singleton = Singleton.getInstance();
+                        // retrieve data from firestore
 
-                   singleton.setContext(getBaseContext());
-                        singleton.setTitle(resturant);
-                        getNearbyPlacesData.execute(dataTransfer);
+                        email = findViewById(R.id.emailTV);
+                        resType = findViewById(R.id.restaurantTV);
+                        mFirebaseAuth = FirebaseAuth.getInstance();
+                        UserID =mFirebaseAuth.getCurrentUser().getUid();
+                        mFirestore = FirebaseFirestore.getInstance();
+
+                        mFirestore.collection("users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                String emailU= documentSnapshot.getString("Email");
+                                String restaurantTYPE = documentSnapshot.getString("Restaurant Type");
+
+                              String resa = restaurantTYPE;
+                                Object dataTransfer[] = new Object[2];
+                                GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
+
+                                String resturant = resa;
+
+                                Criteria criteria = new Criteria();
+                                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+                                String provider = locationManager.getBestProvider(criteria, true);
+                                @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(provider);
+                                double latitude = location.getLatitude();
+                                double longitude = location.getLongitude();
+                                String url = getUrl(latitude, longitude, resturant);
+                                dataTransfer[0] = mMap;
+                                dataTransfer[1] = url;
+
+                                Singleton singleton = Singleton.getInstance();
+
+                                singleton.setContext(getBaseContext());
+                                singleton.setTitle(resturant);
+                                getNearbyPlacesData.execute(dataTransfer);
+                            }
+                        });
+
+
+
+
+
+
+
 
 
                     }
@@ -282,14 +318,14 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
 
 
     }
-    private String getUrl(double latitude, double longitude, String nearbyPlace) {
+    private String getUrl(double latitude, double longitude, String resturant) {
 
         StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/search/json?");
 
         googlePlaceUrl.append("location=" + latitude + "," + longitude);
         googlePlaceUrl.append("&radius=" + "1000");
         googlePlaceUrl.append("&type=restaurant");
-        googlePlaceUrl.append("&keyword=" + nearbyPlace);
+        googlePlaceUrl.append("&keyword=" + resturant);
 
         googlePlaceUrl.append("&key=" + "AIzaSyDWlriOcs2d2_mr2i3aOpJ1q_0d8i9jjE0");
 

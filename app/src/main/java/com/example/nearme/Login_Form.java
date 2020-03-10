@@ -1,8 +1,5 @@
 package com.example.nearme;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,7 +41,7 @@ public class Login_Form extends AppCompatActivity {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
                 if( mFirebaseUser != null){
                     Toast.makeText(Login_Form.this,"You are logged in",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(Login_Form.this, PermissionActivity.class);
+                    Intent intent = new Intent(Login_Form.this, search.class);
                     startActivity(intent);
 
                 }
