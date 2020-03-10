@@ -1,8 +1,5 @@
 package com.example.nearme;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +12,9 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -113,6 +113,8 @@ public class Signup_Form extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "onSuccess: user Profile is created for "+ userID);
+                                        Intent intent = new Intent(Signup_Form.this, Login_Form.class);
+                                        startActivity(intent);
                                     }
 
                                 })
@@ -138,7 +140,7 @@ public class Signup_Form extends AppCompatActivity {
                 }
 
                 else{
-                    Toast.makeText(Signup_Form.this,"Error occured!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Signup_Form.this,"Error Occured!", Toast.LENGTH_SHORT).show();
 
                 }
 

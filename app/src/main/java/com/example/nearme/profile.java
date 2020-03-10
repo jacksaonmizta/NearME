@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,6 +26,7 @@ public class profile extends AppCompatActivity {
      private String UserID;
      private FirebaseFirestore mFirestore;
      private TextView email, resType, BudgetL;
+     private Spinner resTypes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +83,12 @@ public class profile extends AppCompatActivity {
         // retrieve data from firestore
 
         email = findViewById(R.id.emailTV);
-        resType = findViewById(R.id.restaurantTV);
+        resTypes = findViewById(R.id.restaurantTV);
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(profile.this,
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.restaurant_Type));
+
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        resTypes.setAdapter(myAdapter);
         BudgetL = findViewById(R.id.BudgetLevelTV);
         mFirebaseAuth = FirebaseAuth.getInstance();
         UserID =mFirebaseAuth.getCurrentUser().getUid();
@@ -94,7 +102,13 @@ public class profile extends AppCompatActivity {
                 String BudgetLvLDB = documentSnapshot.getString("Budget level");
 
                 email.setText(emailU);
-                resType.setText(restaurantTYPE);
+                ArrayAdapter myAdap = (ArrayAdapter) resTypes.getAdapter(); //cast to an ArrayAdapter
+                int spinnerPosition = myAdap.getPosition(restaurantTYPE);
+
+            //set the default according to value
+                resTypes.setSelection(spinnerPosition);
+               // resTypes.setSelection(Arrays.asList(R.array.restaurant_Type).indexOf(restaurantTYPE));
+               // resTypes.setOnItemClickListener(restaurantTYPE);
                 BudgetL.setText(BudgetLvLDB);
             }
         });
