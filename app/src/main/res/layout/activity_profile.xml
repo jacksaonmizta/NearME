@@ -148,20 +148,21 @@
         android:focusableInTouchMode="true"
         android:layout_marginTop="5dp"
         android:textColorHint="@color/colorPrimaryDark"
+        android:paddingLeft="30sp"
 
 
         >
 
 
 
-    <TextView
+    <EditText
         android:id="@+id/restaurantTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="30dp"
         android:paddingLeft="30dp"
         android:textSize="25sp"
-        android:text="rtv"
+
         />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -215,20 +216,21 @@
         android:focusableInTouchMode="true"
         android:layout_marginTop="5dp"
         android:textColorHint="@color/colorPrimaryDark"
+        android:paddingLeft="30sp"
 
 
         >
 
 
 
-        <TextView
+        <EditText
             android:id="@+id/BudgetLevelTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="30dp"
             android:paddingLeft="30dp"
             android:textSize="25sp"
-            android:text="Bltv"
+
             />
 
     </com.google.android.material.textfield.TextInputLayout>
