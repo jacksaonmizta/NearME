@@ -23,7 +23,7 @@ public class profile extends AppCompatActivity {
      private FirebaseAuth.AuthStateListener mAuthStateListener;
      private String UserID;
      private FirebaseFirestore mFirestore;
-     private TextView email, resType;
+     private TextView email, resType, BudgetL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,10 +77,11 @@ public class profile extends AppCompatActivity {
             }
         });
 
-        // retreive data
+        // retrieve data from firestore
 
         email = findViewById(R.id.emailTV);
         resType = findViewById(R.id.restaurantTV);
+        BudgetL = findViewById(R.id.BudgetLevelTV);
         mFirebaseAuth = FirebaseAuth.getInstance();
         UserID =mFirebaseAuth.getCurrentUser().getUid();
         mFirestore = FirebaseFirestore.getInstance();
@@ -90,9 +91,11 @@ public class profile extends AppCompatActivity {
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 String emailU= documentSnapshot.getString("Email");
                 String restaurantTYPE = documentSnapshot.getString("Restaurant Type");
+                String BudgetLvLDB = documentSnapshot.getString("Budget level");
 
                 email.setText(emailU);
                 resType.setText(restaurantTYPE);
+                BudgetL.setText(BudgetLvLDB);
             }
         });
     }
