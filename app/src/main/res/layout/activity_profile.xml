@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/profileTV"
-        android:paddingTop="50dp"
+        android:paddingTop="10dp"
         android:paddingLeft="120dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -261,7 +261,7 @@
         android:background="@drawable/button_rounded_signup"/>
 
 
-    <Button
+    /*Button
         android:id="@+id/signOutBtn2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -271,7 +271,7 @@
         android:background="@drawable/button_rounded_update"
         android:text="UPDATE"
         android:textColor="#ffffff"
-        android:textSize="15sp" />
+        android:textSize="15sp" />*/
 
     <RelativeLayout
         android:layout_width="match_parent"

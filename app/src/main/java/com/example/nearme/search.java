@@ -323,7 +323,7 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
         StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/search/json?");
 
         googlePlaceUrl.append("location=" + latitude + "," + longitude);
-        googlePlaceUrl.append("&radius=" + "1000");
+        googlePlaceUrl.append("&radius=" + "5000");
         googlePlaceUrl.append("&type=restaurant");
         googlePlaceUrl.append("&keyword=" + resturant);
 
@@ -343,7 +343,7 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
             RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
             layoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-            layoutParams.setMargins(0, 0, 40, 180);
+            layoutParams.setMargins(0, 0, 40, 300);
         }
 
         //check if gps is enabled or not and then request user to enable it
