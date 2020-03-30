@@ -25,8 +25,8 @@ public class profile extends AppCompatActivity {
      private FirebaseAuth.AuthStateListener mAuthStateListener;
      private String UserID;
      private FirebaseFirestore mFirestore;
-     private TextView email, resType, BudgetL;
-     private Spinner resTypes;
+     private TextView email, resType;
+     private Spinner resTypes, BudgetL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +88,15 @@ public class profile extends AppCompatActivity {
                 android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.restaurant_Type));
 
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+        ArrayAdapter<String> myAdapter2 = new ArrayAdapter<String>(profile.this,
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.budger_type));
+
+        myAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         resTypes.setAdapter(myAdapter);
         BudgetL = findViewById(R.id.BudgetLevelTV);
+        BudgetL.setAdapter(myAdapter2);
         mFirebaseAuth = FirebaseAuth.getInstance();
         UserID =mFirebaseAuth.getCurrentUser().getUid();
         mFirestore = FirebaseFirestore.getInstance();
@@ -104,12 +111,13 @@ public class profile extends AppCompatActivity {
                 email.setText(emailU);
                 ArrayAdapter myAdap = (ArrayAdapter) resTypes.getAdapter(); //cast to an ArrayAdapter
                 int spinnerPosition = myAdap.getPosition(restaurantTYPE);
+                int spinnerPosition2 = myAdap.getPosition(BudgetLvLDB);
 
             //set the default according to value
                 resTypes.setSelection(spinnerPosition);
                // resTypes.setSelection(Arrays.asList(R.array.restaurant_Type).indexOf(restaurantTYPE));
                // resTypes.setOnItemClickListener(restaurantTYPE);
-                BudgetL.setText(BudgetLvLDB);
+                BudgetL.setSelection(spinnerPosition2);
             }
         });
     }

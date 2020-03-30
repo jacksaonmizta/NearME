@@ -222,8 +222,7 @@
         >
 
 
-
-        <EditText
+        <Spinner
             android:id="@+id/BudgetLevelTV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -232,6 +231,7 @@
             android:textSize="25sp"
 
             />
+
 
     </com.google.android.material.textfield.TextInputLayout>
 
