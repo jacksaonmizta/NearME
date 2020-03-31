@@ -84,19 +84,19 @@ public class profile extends AppCompatActivity {
 
         email = findViewById(R.id.emailTV);
         resTypes = findViewById(R.id.restaurantTV);
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(profile.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.restaurant_Type));
-
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
-        ArrayAdapter<String> myAdapter2 = new ArrayAdapter<String>(profile.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.budger_type));
-
-        myAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        resTypes.setAdapter(myAdapter);
         BudgetL = findViewById(R.id.BudgetLevelTV);
+
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<>(profile.this,
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.restaurant_Type));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        resTypes.setAdapter(myAdapter);
+
+        ArrayAdapter<String> myAdapter2 = new ArrayAdapter<>(profile.this,
+                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.budger_type));
+        myAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         BudgetL.setAdapter(myAdapter2);
+
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         UserID =mFirebaseAuth.getCurrentUser().getUid();
         mFirestore = FirebaseFirestore.getInstance();
@@ -110,8 +110,9 @@ public class profile extends AppCompatActivity {
 
                 email.setText(emailU);
                 ArrayAdapter myAdap = (ArrayAdapter) resTypes.getAdapter(); //cast to an ArrayAdapter
+                ArrayAdapter myAdap2 = (ArrayAdapter) BudgetL.getAdapter(); //cast to an ArrayAdapter
                 int spinnerPosition = myAdap.getPosition(restaurantTYPE);
-                int spinnerPosition2 = myAdap.getPosition(BudgetLvLDB);
+                int spinnerPosition2 = myAdap2.getPosition(BudgetLvLDB);
 
             //set the default according to value
                 resTypes.setSelection(spinnerPosition);
