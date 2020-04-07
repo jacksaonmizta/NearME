@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.nearme.History.HistoryData;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -53,15 +54,23 @@ import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRe
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.mancj.materialsearchbar.adapter.SuggestionsAdapter;
 import com.skyfishjy.library.RippleBackground;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class search extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -84,6 +93,8 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
     private TextView email, resType, BudgetL;
     private final float DEFAULT_ZOOM = 15;
     public String res;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -203,6 +214,7 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
                 if (position >= predictionList.size()) {
                     return;
                 }
+
                 AutocompletePrediction selectedPrediction = predictionList.get(position);
                 String suggestion = materialSearchBar.getLastSuggestions().get(position).toString();
                 materialSearchBar.setText(suggestion);
@@ -213,9 +225,11 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
                         materialSearchBar.clearSuggestions();
                     }
                 }, 1000);
+
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 if (imm != null)
                     imm.hideSoftInputFromWindow(materialSearchBar.getWindowToken(), InputMethodManager.HIDE_IMPLICIT_ONLY);
+
                 final String placeId = selectedPrediction.getPlaceId();
                 List<Place.Field> placeFields = Arrays.asList(Place.Field.LAT_LNG);
 
@@ -258,11 +272,8 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
                     @Override
                     public void run() {
                         rippleBg.stopRippleAnimation();
-                       // startActivity(new Intent(search.this, resNear.class));
+                        // startActivity(new Intent(search.this, resNear.class));
                         //finish();
-
-
-
                         // retrieve data from firestore
 
                         email = findViewById(R.id.emailTV);
@@ -277,8 +288,10 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
                                 String emailU= documentSnapshot.getString("Email");
                                 String restaurantTYPE = documentSnapshot.getString("Restaurant Type");
 
-                              String resa = restaurantTYPE;
-                                Object dataTransfer[] = new Object[2];
+                                System.out.println("restaurantTYPE--- " + restaurantTYPE);
+
+                                String resa = restaurantTYPE;
+                                Object dataTransfer[] = new Object[3];
                                 GetNearbyPlacesData getNearbyPlacesData = new GetNearbyPlacesData();
 
                                 String resturant = resa;
@@ -290,8 +303,10 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
                                 double latitude = location.getLatitude();
                                 double longitude = location.getLongitude();
                                 String url = getUrl(latitude, longitude, resturant);
+                                System.out.println("--- URL " + url);
                                 dataTransfer[0] = mMap;
                                 dataTransfer[1] = url;
+                                dataTransfer[2] = resturant;
 
                                 Singleton singleton = Singleton.getInstance();
 
@@ -300,18 +315,8 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
                                 getNearbyPlacesData.execute(dataTransfer);
                             }
                         });
-
-
-
-
-
-
-
-
-
                     }
                 }, 3000);
-
             }
         });
 
@@ -323,7 +328,7 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
         StringBuilder googlePlaceUrl = new StringBuilder("https://maps.googleapis.com/maps/api/place/search/json?");
 
         googlePlaceUrl.append("location=" + latitude + "," + longitude);
-        googlePlaceUrl.append("&radius=" + "1000");
+        googlePlaceUrl.append("&radius=" + "5000");
         googlePlaceUrl.append("&type=restaurant");
         googlePlaceUrl.append("&keyword=" + resturant);
 
@@ -425,6 +430,9 @@ public class search extends AppCompatActivity implements OnMapReadyCallback {
                                         mLastKnownLocation = locationResult.getLastLocation();
                                         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
                                         mFusedLocationProviderClient.removeLocationUpdates(locationCallback);
+
+                                        Utils.singleton.setMylat(String.valueOf(mLastKnownLocation.getLatitude()));
+                                        Utils.singleton.setMylong(String.valueOf(mLastKnownLocation.getLongitude()));
                                     }
                                 };
                                 mFusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);

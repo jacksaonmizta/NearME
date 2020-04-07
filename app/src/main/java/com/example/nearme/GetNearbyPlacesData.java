@@ -23,11 +23,13 @@ class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
     private String googlePlacesData;
     private GoogleMap mMap;
     String url;
+    String type;
 
     @Override
     protected String doInBackground(Object... objects){
         mMap = (GoogleMap)objects[0];
         url = (String)objects[1];
+        type = (String) objects[2];
 
         DownloadURL downloadURL = new DownloadURL();
         try {
@@ -70,6 +72,8 @@ class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
             MarkerOptions markerOptions = new MarkerOptions();
             HashMap<String, String> googlePlace = nearbyPlaceList.get(i);
 
+            System.out.println("googlePlace---- " + googlePlace);
+
             String placeName = googlePlace.get("place_name");
             String vicinity = googlePlace.get("vicinity");
             String price_level = googlePlace.get("price_level");
@@ -83,7 +87,7 @@ class GetNearbyPlacesData extends AsyncTask<Object, String, String> {
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
 
-            lsData.add(placeName+ ":" + vicinity + ":" + String.valueOf(lat)  + ":" + String.valueOf(lng) + ":" + String.valueOf(price_level) + ":" + String.valueOf(rating));
+            lsData.add(placeName+ ":" + vicinity + ":" + String.valueOf(lat)  + ":" + String.valueOf(lng) + ":" + String.valueOf(price_level) + ":" + String.valueOf(rating) + ":" + type);
 
         }
 

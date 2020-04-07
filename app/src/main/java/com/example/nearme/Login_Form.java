@@ -1,6 +1,8 @@
 package com.example.nearme;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,10 +26,16 @@ public class Login_Form extends AppCompatActivity {
     FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login__form);
+
+        mSharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+        mEditor = mSharedPreferences.edit();
 
         mFirebaseAuth = FirebaseAuth.getInstance();
         emailId = findViewById(R.id.tv_username);
@@ -43,7 +51,7 @@ public class Login_Form extends AppCompatActivity {
                     Toast.makeText(Login_Form.this,"You are logged in",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(Login_Form.this, search.class);
                     startActivity(intent);
-
+                    finish();
                 }
                 else{
                     Toast.makeText(Login_Form.this,"Please Login",Toast.LENGTH_SHORT).show();
@@ -85,10 +93,13 @@ public class Login_Form extends AppCompatActivity {
                             if(!task.isSuccessful()){
                                 Toast.makeText(Login_Form.this,"Login Error, Please login again", Toast.LENGTH_SHORT).show();
 
-                            }
-                            else{
+                            } else{
+                                mEditor.putString("USER_ID", task.getResult().getUser().getUid());
+                                mEditor.apply();
+
                                 Intent intToHome = new Intent(Login_Form.this, search.class);
                                 startActivity(intToHome);
+                                finish();
                             }
                         }
                     });
