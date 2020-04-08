@@ -82,14 +82,6 @@
         android:layout_marginTop="20dp"
         />
 
-    <ImageButton
-        android:id="@+id/btn_authenticate"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_gravity="bottom|center"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/button_rounded"
-        android:src="@drawable/ic_fingerprint"
-        />
+
 
 </LinearLayout>

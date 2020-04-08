@@ -36,7 +36,7 @@ public class Signup_Form extends AppCompatActivity {
     FirebaseAuth mFirebaseAuth;
     FirebaseFirestore fstore;
 
-   
+
     String userID;
 
     @Override
