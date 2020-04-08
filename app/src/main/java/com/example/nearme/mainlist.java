@@ -119,8 +119,6 @@ public class mainlist extends AppCompatActivity {
                                 }
                             });
 
-                            System.out.println("--- " + mHistoryList.get(mHistoryList.size() - 1).getTitle());
-
                             if (mHistoryList.size() > 0 && !mHistoryList.get(mHistoryList.size() - 1).isAddToHistory()) {
                                 askForExperience(mHistoryList.get(mHistoryList.size() - 1));
                             }
