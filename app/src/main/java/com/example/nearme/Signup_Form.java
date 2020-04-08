@@ -36,9 +36,7 @@ public class Signup_Form extends AppCompatActivity {
     FirebaseAuth mFirebaseAuth;
     FirebaseFirestore fstore;
 
-    Spinner restaurantType;
-    RadioGroup radioGroup;
-    RadioButton radioButton;
+   
     String userID;
 
     @Override
@@ -52,18 +50,7 @@ public class Signup_Form extends AppCompatActivity {
         tvSignIn = findViewById(R.id.LoginSignUp_tv);
         btnSignUp = findViewById(R.id.Signup_ButtonID);
 
-        restaurantType = findViewById(R.id.RtypeSpinner);
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(Signup_Form.this,
-                android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.restaurant_Type));
 
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        restaurantType.setAdapter(myAdapter);
-
-        radioGroup = findViewById(R.id.radioGroup);
-
-        int radioId = radioGroup.getCheckedRadioButtonId();
-
-        radioButton=findViewById(radioId);
 
         fstore = FirebaseFirestore.getInstance();
 
@@ -75,8 +62,8 @@ public class Signup_Form extends AppCompatActivity {
             public void onClick(View v) {
                 final String email = emailId.getText().toString();
                 String pwd = password.getText().toString();
-                final String RT = restaurantType.getSelectedItem().toString();
-                final String BT = radioButton.getText().toString();
+                final String RT = "Chinese";
+                final String BT = "MEDIUM";
 
                 if(email.isEmpty()){
                     emailId.setError("Please enter email address");
