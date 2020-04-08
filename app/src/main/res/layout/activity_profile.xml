@@ -26,8 +26,6 @@
         android:focusableInTouchMode="true"
         android:layout_marginTop="5dp"
         android:textColorHint="@color/colorPrimaryDark"
-
-
         >
 
         <TextView

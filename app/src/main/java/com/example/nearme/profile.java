@@ -1,6 +1,9 @@
 package com.example.nearme;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -8,15 +11,20 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class profile extends AppCompatActivity {
     Button btnLogout;
@@ -28,10 +36,14 @@ public class profile extends AppCompatActivity {
      private TextView email, resType;
      private Spinner resTypes, BudgetL;
 
+     private SharedPreferences mSharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        mSharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
 
         // Initialize and Assign Value
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -96,30 +108,69 @@ public class profile extends AppCompatActivity {
         myAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         BudgetL.setAdapter(myAdapter2);
 
-
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        UserID =mFirebaseAuth.getCurrentUser().getUid();
         mFirestore = FirebaseFirestore.getInstance();
 
-        mFirestore.collection("users").document(UserID).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        final ProgressDialog progressDialog = ProgressDialog.show(profile.this, null, "Loading, please wait...");
+
+        mFirestore.collection("users")
+                .document(mSharedPreferences.getString("USER_ID", ""))
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        progressDialog.dismiss();
+
+                        String restaurantTYPE = documentSnapshot.getString("Restaurant Type");
+                        String BudgetLvLDB = documentSnapshot.getString("Budget level");
+
+                        email.setText(documentSnapshot.getString("Email"));
+
+                        for (int i = 0; i < getResources().getStringArray(R.array.restaurant_Type).length; i++) {
+                            if (getResources().getStringArray(R.array.restaurant_Type)[i].equalsIgnoreCase(restaurantTYPE)) {
+                                resTypes.setSelection(i);
+                                break;
+                            }
+                        }
+
+                        for (int i = 0; i < getResources().getStringArray(R.array.budger_type).length; i++) {
+                            if (getResources().getStringArray(R.array.budger_type)[i].equalsIgnoreCase(BudgetLvLDB)) {
+                                BudgetL.setSelection(i);
+                                break;
+                            }
+                        }
+                    }
+                });
+
+
+        findViewById(R.id.signOutBtn2).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                String emailU= documentSnapshot.getString("Email");
-                String restaurantTYPE = documentSnapshot.getString("Restaurant Type");
-                String BudgetLvLDB = documentSnapshot.getString("Budget level");
+            public void onClick(View v) {
+                final ProgressDialog progressDialog = ProgressDialog.show(profile.this, null, "Loading, please wait...");
 
-                email.setText(emailU);
-                ArrayAdapter myAdap = (ArrayAdapter) resTypes.getAdapter(); //cast to an ArrayAdapter
-                ArrayAdapter myAdap2 = (ArrayAdapter) BudgetL.getAdapter(); //cast to an ArrayAdapter
-                int spinnerPosition = myAdap.getPosition(restaurantTYPE);
-                int spinnerPosition2 = myAdap2.getPosition(BudgetLvLDB);
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                Map<String, Object> user = new HashMap<>();
+                user.put("Budget level", BudgetL.getSelectedItem().toString());
+                user.put("Restaurant Type", resTypes.getSelectedItem().toString());
+                user.put("Email", mSharedPreferences.getString("EMAIL", ""));
 
-            //set the default according to value
-                resTypes.setSelection(spinnerPosition);
-               // resTypes.setSelection(Arrays.asList(R.array.restaurant_Type).indexOf(restaurantTYPE));
-               // resTypes.setOnItemClickListener(restaurantTYPE);
-                BudgetL.setSelection(spinnerPosition2);
+                db.collection("users")
+                        .document(mSharedPreferences.getString("USER_ID", ""))
+                        .set(user)
+                        .addOnSuccessListener(new OnSuccessListener < Void > () {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                progressDialog.dismiss();
+                                Toast.makeText(profile.this, "Profile updated successfully.", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                progressDialog.dismiss();
+                            }
+                        });
             }
         });
     }
+
 }

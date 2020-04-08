@@ -1,8 +1,12 @@
 package com.example.nearme;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,12 +16,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.security.Permissions;
 
 public class Login_Form extends AppCompatActivity {
     public EditText emailId, password;
@@ -87,22 +94,7 @@ public class Login_Form extends AppCompatActivity {
                 }
 
                 else if (!(email.isEmpty() && pwd.isEmpty())){
-                    mFirebaseAuth.signInWithEmailAndPassword(email, pwd).addOnCompleteListener(Login_Form.this, new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(!task.isSuccessful()){
-                                Toast.makeText(Login_Form.this,"Login Error, Please login again", Toast.LENGTH_SHORT).show();
-
-                            } else{
-                                mEditor.putString("USER_ID", task.getResult().getUser().getUid());
-                                mEditor.apply();
-
-                                Intent intToHome = new Intent(Login_Form.this, search.class);
-                                startActivity(intToHome);
-                                finish();
-                            }
-                        }
-                    });
+                    checkForPermission();
                 }
 
                 else{
@@ -121,9 +113,61 @@ public class Login_Form extends AppCompatActivity {
         });
     }
 
+
+    private void doLogin() {
+        mFirebaseAuth.signInWithEmailAndPassword(emailId.getText().toString().trim(), password.getText().toString().toLowerCase()).addOnCompleteListener(Login_Form.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful()){
+                    Toast.makeText(Login_Form.this,"Login Error, Please login again", Toast.LENGTH_SHORT).show();
+
+                } else{
+                    mEditor.putString("USER_ID", task.getResult().getUser().getUid());
+                    mEditor.putString("EMAIL", emailId.getText().toString().trim());
+                    mEditor.apply();
+
+                    Intent intToHome = new Intent(Login_Form.this, search.class);
+                    startActivity(intToHome);
+                    finish();
+                }
+            }
+        });
+    }
+
+
+    private void checkForPermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1001);
+
+            } else {
+                doLogin();
+            }
+        }else {
+            doLogin();
+        }
+    }
+
+
     @Override
     protected void onStart() {
         super.onStart();
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 1001:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    doLogin();
+
+                } else {
+                    Toast.makeText(Login_Form.this, "Location permission is required.", Toast.LENGTH_LONG).show();
+                    checkForPermission();
+                }
+                break;
+        }
     }
 }
