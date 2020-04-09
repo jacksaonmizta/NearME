@@ -31,7 +31,7 @@ public class Login_Form extends AppCompatActivity {
     Button btnSignIn;
     TextView tvSignUp;
     FirebaseAuth mFirebaseAuth;
-    private FirebaseAuth.AuthStateListener mAuthStateListener;
+    //private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
@@ -50,7 +50,7 @@ public class Login_Form extends AppCompatActivity {
         tvSignUp = findViewById(R.id.Register_buttonTV);
         btnSignIn = findViewById(R.id.Login_buttonID);
 
-        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+       /* mAuthStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser mFirebaseUser = mFirebaseAuth.getCurrentUser();
@@ -66,7 +66,7 @@ public class Login_Form extends AppCompatActivity {
                 }
 
             }
-        };
+        };*/
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,11 +149,11 @@ public class Login_Form extends AppCompatActivity {
     }
 
 
-    @Override
+   /* @Override
     protected void onStart() {
         super.onStart();
         mFirebaseAuth.addAuthStateListener(mAuthStateListener);
-    }
+    }*/
 
 
     @Override
